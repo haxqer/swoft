@@ -18,6 +18,7 @@
     "ext-mbstring": "*",
     "ext-dom": "*",
     "ext-bcmath": "*",
+    "ext-openssl": "*",
     "swoft/db": "~2.0.0",
     "swoft/i18n": "~2.0.0",
     "swoft/view": "~2.0.0",
