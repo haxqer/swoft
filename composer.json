@@ -19,6 +19,7 @@
     "ext-dom": "*",
     "ext-bcmath": "*",
     "ext-openssl": "*",
+    "bas/ip2region": "~3.0.0",
     "swoft/db": "~2.0.0",
     "swoft/i18n": "~2.0.0",
     "swoft/view": "~2.0.0",
