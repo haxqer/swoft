@@ -1,0 +1,45 @@
+openapi: 3.0.0
+info:
+  title: 'BAS DSP API'
+  version: '0.1'
+servers:
+  -
+    url: 'http://swoft.haxqer.cn'
+  -
+    url: 'http://cpanel.corp.trac.cn'
+paths:
+  /mgtv/vastd:
+    get:
+      operationId: ' vastd'
+      parameters:
+        -
+          name: adid
+          in: query
+          description: 'adid .eg: 1791'
+          required: false
+          schema:
+            type: integer
+        -
+          name: m7
+          in: query
+          description: 'mac md5'
+          required: false
+          schema:
+            type: string
+        -
+          name: pos
+          in: query
+          description: 'postion .eg: 200028 200032'
+          required: false
+          schema:
+            type: integer
+        -
+          name: seatid
+          in: query
+          description: 'seatid .eg: 1 2'
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'repositories ad by the adid or the position.'
