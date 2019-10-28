@@ -43,3 +43,22 @@ paths:
       responses:
         '200':
           description: 'repositories ad by the adid or the position.'
+  /users:
+    post:
+      summary: 'Adds a new user'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+              type: object
+              example:
+                id: 10
+                name: 'Jessica Smith'
+      responses:
+        '200':
+          description: OK
