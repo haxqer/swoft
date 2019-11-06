@@ -40,7 +40,8 @@
     "swoft/devtool": "~2.0.0",
     "swlib/saber": "^1.0",
     "swoft/tcp": "^2.0",
-    "zircote/swagger-php": "^3.0"
+    "zircote/swagger-php": "^3.0",
+    "swoft/event": "^2.0"
   },
   "require-dev": {
     "swoft/swoole-ide-helper": "dev-master",
