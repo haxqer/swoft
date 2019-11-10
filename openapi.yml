@@ -1,78 +1,165 @@
 openapi: 3.0.0
 info:
-  title: 'BAS DSP API'
+  title: 'BAS Stat API'
   version: '0.1'
 servers:
   -
-    url: 'http://swoft.haxqer.cn'
+    url: 'http://stat.adid.fun'
   -
-    url: 'http://cpanel.corp.trac.cn'
+    url: 'http://stat.xget.fun'
 paths:
-  /mgtv/vastd:
+  '/api/{table_type}/{stat_type}/{table_name}/{start_date}/{end_date}/{offset}/{limit}':
     get:
-      operationId: ' vastd'
+      operationId: stat
       parameters:
+        -
+          name: table_type
+          in: path
+          description: 'Type of table. Such as `day` `period` '
+          required: true
+          schema:
+            type: string
+            default: day
+            enum:
+              - day
+              - period
+        -
+          name: stat_type
+          in: path
+          description: 'Type of stat. Such as `pv` `uv` `nuv` '
+          required: true
+          schema:
+            type: string
+            default: pv
+            enum:
+              - pv
+              - uv
+              - nuv
+        -
+          name: table_name
+          in: path
+          description: 'Name of Database Table. Such as `day_ad_pv_stat` `day_ad_uv_stat` `group_app_province_pv_stat` .etc'
+          required: true
+          schema:
+            type: string
+            default: day_ad_pv_stat
+            enum:
+              - app_region_nuv_stat
+              - app_region_pv_stat
+              - app_region_uv_stat
+              - app_uv_stat
+              - day_ad_province_pv_stat
+              - day_ad_pv_stat
+              - day_ad_region_pv_stat
+              - day_ad_uv_stat
+              - day_app_ad_pv_stat
+              - day_app_asset_pv_stat
+              - day_app_overlap_stat
+              - day_app_province_pv_stat
+              - day_app_province_uv_stat
+              - day_app_pv_stat
+              - day_app_region_pv_stat
+              - day_app_region_uv_stat
+              - day_app_uv_stat
+              - day_asset_province_pv_stat
+              - day_asset_pv_stat
+              - day_asset_region_pv_stat
+              - day_asset_uv_stat
+              - day_group_app_province_pv_stat
+              - day_group_app_province_uv_stat
+              - day_group_app_region_pv_stat
+              - day_group_app_region_uv_stat
+              - day_group_nuv_stat
+              - day_group_pv_stat
+              - day_group_region_pv_stat
+              - day_group_uv_stat
+              - day_hour_ad_pv_stat
+              - day_hour_asset_pv_stat
+              - day_hour_group_app_region_pv_stat
+              - day_region_pv_stat
+              - day_region_uv_stat
+              - day_uv_stat
+              - group_app_province_pv_stat
+              - group_app_province_uv_stat
+              - group_app_region_pv_stat
+              - group_app_region_uv_stat
+              - group_nuv_stat
+              - group_pv_stat
+              - group_uv_stat
+              - region_nuv_stat
+              - region_uv_stat
+        -
+          name: start_date
+          in: path
+          description: 'Start Date. Such as `20190129` `20191111` '
+          required: true
+          schema:
+            type: integer
+            default: 20191001
+        -
+          name: end_date
+          in: path
+          description: 'End Date. Such as `20190129` `20191111` '
+          required: true
+          schema:
+            type: integer
+            default: 20191010
+        -
+          name: offset
+          in: path
+          description: 'Offset. Such as `0` `10023` '
+          required: true
+          schema:
+            type: integer
+            default: 10
+        -
+          name: limit
+          in: path
+          description: 'Limit. Such as `0` `200` '
+          required: true
+          schema:
+            type: integer
+            default: 10
         -
           name: adid
           in: query
-          description: 'adid .eg: 1791'
-          required: false
-          schema:
-            type: integer
-        -
-          name: m7
-          in: query
-          description: 'mac md5'
+          description: 'Such as `1791` `1792,1793,1794` '
           required: false
           schema:
             type: string
+            default: ''
         -
-          name: pos
+          name: groupid
           in: query
-          description: 'postion .eg: 200028 200032'
+          description: 'Such as `123` `123,234,223` '
           required: false
           schema:
-            type: integer
+            type: string
+            default: ''
         -
-          name: seatid
+          name: assetid
           in: query
-          description: 'seatid .eg: 1 2'
+          description: 'Such as `234` `444,123,12312` '
           required: false
           schema:
-            type: integer
+            type: string
+            default: ''
+        -
+          name: regioncode
+          in: query
+          description: 'Such as `310100` `310100,110100` '
+          required: false
+          schema:
+            type: string
+            default: ''
+        -
+          name: provincecode
+          in: query
+          description: 'Such as `310000` `310000,110000` '
+          required: false
+          schema:
+            type: string
+            default: ''
       responses:
         '200':
           description: 'repositories ad by the adid or the position.'
-  /users:
-    post:
-      summary: 'Adds a new user'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                id:
-                  type: string
-                name:
-                  type: string
-              type: object
-              example:
-                id: 10
-                name: 'Jessica Smith'
-      responses:
-        '200':
-          description: OK
-components:
-  securitySchemes:
-    petstore_auth:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: 'http://petstore.swagger.io/oauth/dialog'
-          scopes:
-            'write:pets': 'modify pets in your account'
-            'read:pets': 'read your pets'
-    api_key:
-      type: apiKey
-      name: api_key
-      in: header
