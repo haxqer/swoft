@@ -10,6 +10,8 @@ servers:
 paths:
   '/api/{table_type}/{stat_type}/{table_name}/{start_date}/{end_date}/{offset}/{limit}':
     get:
+      tags:
+        - api
       operationId: stat
       parameters:
         -
