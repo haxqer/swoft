@@ -5,8 +5,10 @@ info:
 servers:
   -
     url: 'http://stat.adid.fun'
+    description: 'Corporate environment'
   -
     url: 'http://stat.xget.fun'
+    description: 'Local environment'
 paths:
   '/api/{table_type}/{stat_type}/{table_name}/{start_date}/{end_date}/{offset}/{limit}':
     get:
