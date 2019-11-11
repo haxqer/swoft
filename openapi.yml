@@ -10,35 +10,12 @@ servers:
     url: 'http://stat.xget.fun'
     description: 'Local 测试环境'
 paths:
-  '/api/{table_type}/{stat_type}/{table_name}/{start_date}/{end_date}/{offset}/{limit}':
+  '/api/{table_name}/{start_date}/{end_date}/{offset}/{limit}':
     get:
       tags:
         - api
       operationId: stat
       parameters:
-        -
-          name: table_type
-          in: path
-          description: '表的类型，如 每日、周期. Such as `day` `period` '
-          required: true
-          schema:
-            type: string
-            default: day
-            enum:
-              - day
-              - period
-        -
-          name: stat_type
-          in: path
-          description: '查询的类型. Such as `pv` `uv` `nuv` '
-          required: true
-          schema:
-            type: string
-            default: pv
-            enum:
-              - pv
-              - uv
-              - nuv
         -
           name: table_name
           in: path
@@ -99,7 +76,7 @@ paths:
           required: true
           schema:
             type: integer
-            default: 20191001
+            default: 20190101
         -
           name: end_date
           in: path
