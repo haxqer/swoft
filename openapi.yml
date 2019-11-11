@@ -231,9 +231,7 @@ components:
           description: 数据集
           type: array
           items:
-            type: array
-            items:
-              $ref: '#/components/schemas/StatResponseDataList'
+            $ref: '#/components/schemas/StatResponseDataList'
           xml:
             name: list
             wrapped: true
@@ -255,7 +253,13 @@ components:
           description: '数据举例 - 广告 ID'
           type: integer
           format: int32
-          example: 1791
+          example: 11745
+        ad_title:
+          title: 'Ad Title'
+          description: '数据举例 - 广告名称'
+          type: string
+          format: string
+          example: mgtv-电视购物-E-收银机A01-190911-S
         uv:
           title: UV
           description: '数据举例 - 用户数'
