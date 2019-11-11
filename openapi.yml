@@ -1,14 +1,14 @@
 openapi: 3.0.0
 info:
   title: 'BAS Stat API'
-  version: '0.1'
+  version: 0.1.1
 servers:
   -
     url: 'http://stat.adid.fun'
-    description: 'Corporate environment'
+    description: 公司测试环境
   -
     url: 'http://stat.xget.fun'
-    description: 'Local environment'
+    description: 'Local 测试环境'
 paths:
   '/api/{table_type}/{stat_type}/{table_name}/{start_date}/{end_date}/{offset}/{limit}':
     get:
@@ -19,7 +19,7 @@ paths:
         -
           name: table_type
           in: path
-          description: 'Type of table. Such as `day` `period` '
+          description: '表的类型，如 每日、周期. Such as `day` `period` '
           required: true
           schema:
             type: string
@@ -30,7 +30,7 @@ paths:
         -
           name: stat_type
           in: path
-          description: 'Type of stat. Such as `pv` `uv` `nuv` '
+          description: '查询的类型. Such as `pv` `uv` `nuv` '
           required: true
           schema:
             type: string
@@ -42,7 +42,7 @@ paths:
         -
           name: table_name
           in: path
-          description: 'Name of Database Table. Such as `day_ad_pv_stat` `day_ad_uv_stat` `group_app_province_pv_stat` .etc'
+          description: '表名. Such as `day_ad_pv_stat` `day_ad_uv_stat` `group_app_province_pv_stat` .etc'
           required: true
           schema:
             type: string
@@ -95,7 +95,7 @@ paths:
         -
           name: start_date
           in: path
-          description: 'Start Date. Such as `20190129` `20191111` '
+          description: '开始日期. Such as `20190129` `20191111` '
           required: true
           schema:
             type: integer
@@ -103,7 +103,7 @@ paths:
         -
           name: end_date
           in: path
-          description: 'End Date. Such as `20190129` `20191111` '
+          description: '截止日期. Such as `20190129` `20191111` '
           required: true
           schema:
             type: integer
@@ -111,7 +111,7 @@ paths:
         -
           name: offset
           in: path
-          description: 'Offset. Such as `0` `10023` '
+          description: '偏移量. Such as `0` `10023` '
           required: true
           schema:
             type: integer
@@ -127,7 +127,7 @@ paths:
         -
           name: adid
           in: query
-          description: 'Such as `1791` `1792,1793,1794` '
+          description: '广告 ID . Such as `1791` `1792,1793,1794` '
           required: false
           schema:
             type: string
@@ -135,7 +135,7 @@ paths:
         -
           name: groupid
           in: query
-          description: 'Such as `123` `123,234,223` '
+          description: '广告组 ID . Such as `123` `123,234,223` '
           required: false
           schema:
             type: string
@@ -143,7 +143,7 @@ paths:
         -
           name: assetid
           in: query
-          description: 'Such as `234` `444,123,12312` '
+          description: '素材 ID . Such as `234` `444,123,12312` '
           required: false
           schema:
             type: string
@@ -151,7 +151,7 @@ paths:
         -
           name: regioncode
           in: query
-          description: 'Such as `310100` `310100,110100` '
+          description: '城市代码. Such as `310100` `310100,110100` '
           required: false
           schema:
             type: string
@@ -159,11 +159,109 @@ paths:
         -
           name: provincecode
           in: query
-          description: 'Such as `310000` `310000,110000` '
+          description: '省份代码.Such as `310000` `310000,110000` '
           required: false
           schema:
             type: string
             default: ''
       responses:
         '200':
-          description: 'repositories ad by the adid or the position.'
+          description: Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatResponse'
+        '500':
+          description: 错误
+components:
+  schemas:
+    StatResponse:
+      title: ResponseSchema
+      description: 统计接口
+      properties:
+        status:
+          title: Status
+          description: 响应状态
+          type: integer
+          format: int32
+          example: 200
+        data:
+          title: 'Response Data'
+          description: 数据
+          $ref: '#/components/schemas/StatResponseData'
+        error:
+          title: Error
+          description: 错误信息
+          type: string
+          format: string
+          example: ''
+      type: object
+      xml:
+        name: StatResponse
+    StatResponseData:
+      title: ResponseSchema-Data
+      description: 返回的结果中的数据集
+      properties:
+        total:
+          title: Total
+          description: 数据库中匹配的查询结果行数
+          type: integer
+          format: int32
+          example: 12
+        offset:
+          title: Offset
+          description: 查询时的偏移量(用于分页展示)
+          type: integer
+          format: int32
+          example: 10
+        limit:
+          title: Limit
+          description: 此次请求返回的结果集中数据最大行数
+          type: integer
+          format: int32
+          example: 3
+        count:
+          title: Count
+          description: 当前返回的结果集中数据的行数
+          type: integer
+          format: int32
+          example: 2
+        list:
+          title: List
+          description: 数据集
+          type: array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/StatResponseDataList'
+          xml:
+            name: list
+            wrapped: true
+      type: object
+      xml:
+        name: StatResponseData
+    StatResponseDataList:
+      title: StatResponseDataList
+      description: 结果集
+      properties:
+        day:
+          title: Day
+          description: '数据举例 - 日期'
+          type: integer
+          format: int32
+          example: 20191001
+        adid:
+          title: Adid
+          description: '数据举例 - 广告 ID'
+          type: integer
+          format: int32
+          example: 1791
+        uv:
+          title: UV
+          description: '数据举例 - 用户数'
+          type: integer
+          format: int32
+          example: 234129
+      type: object
+      xml:
+        name: StatResponseDataList
