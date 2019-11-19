@@ -1,0 +1,146 @@
+openapi: 3.0.0
+info:
+  title: 'BAS Search API'
+  description: 搜索接口文档
+  version: 0.1.0
+servers:
+  -
+    url: 'http://search.adid.fun'
+    description: 公司测试环境
+  -
+    url: 'http://search.xget.fun'
+    description: 'Local 测试环境'
+paths:
+  '/search/{index}':
+    get:
+      tags:
+        - 'search api'
+      operationId: search
+      parameters:
+        -
+          name: index
+          in: path
+          description: '索引名称. Such as `ads_ad` `ads_group` `ads_app` .etc'
+          required: true
+          schema:
+            type: string
+            default: ads_ad
+            enum:
+              - ads_campaign
+              - ads_group
+              - ads_ad
+              - ads_asset
+              - ads_app
+              - ads_region_code
+              - ads_province_code
+        -
+          name: words
+          in: query
+          description: '搜索词. Such as `测试` `上海` '
+          required: true
+          schema:
+            type: string
+            default: 测试
+        -
+          name: offset
+          in: query
+          description: '偏移量. Such as `0` `22` '
+          required: false
+          schema:
+            type: integer
+            default: 0
+        -
+          name: limit
+          in: query
+          description: 'Limit. Such as `0` `200` '
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '500':
+          description: 错误
+components:
+  schemas:
+    SearchResponse:
+      title: ResponseSchema
+      description: 搜索接口
+      properties:
+        status:
+          title: Status
+          description: 响应状态
+          type: integer
+          format: int32
+          example: 200
+        data:
+          title: 'Response Data'
+          description: 数据
+          $ref: '#/components/schemas/SearchResponseData'
+        error:
+          title: Error
+          description: 错误信息
+          type: string
+          format: string
+          example: ''
+      type: object
+      xml:
+        name: SearchResponse
+    SearchResponseData:
+      title: ResponseSchema-Data
+      description: 返回的结果中的数据集
+      properties:
+        total:
+          title: Total
+          description: ES中匹配的查询结果行数
+          type: integer
+          format: int32
+          example: 12
+        offset:
+          title: Offset
+          description: 查询时的偏移量(用于分页展示)
+          type: integer
+          format: int32
+          example: 10
+        limit:
+          title: Limit
+          description: 此次请求返回的结果集中数据最大行数
+          type: integer
+          format: int32
+          example: 3
+        list:
+          title: List
+          description: 数据集
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchResponseDataList'
+          xml:
+            name: list
+            wrapped: true
+      type: object
+      xml:
+        name: SearchResponseData
+    SearchResponseDataList:
+      title: StatResponseDataList
+      description: 结果集
+      properties:
+        id:
+          title: ID
+          description: ID
+          type: integer
+          format: int32
+          example: 12
+        title:
+          title: Title
+          description: 名称
+          type: string
+          format: string
+          example: mgtv-电视购物-E-收银机A01-190911-S
+      type: object
+      xml:
+        name: StatResponseDataList
